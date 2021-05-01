@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS category
 (
     category_id identity,
-    name varchar(100)
+    category_name varchar(100)
 );
 CREATE TABLE IF NOT EXISTS author
 (
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS author
 CREATE TABLE IF NOT EXISTS publisher
 (
   publisher_id identity,
-  name varchar(100),
+  publisher_name varchar(100),
   address varchar(150),
   phone_number varchar(15),
   email varchar(50)

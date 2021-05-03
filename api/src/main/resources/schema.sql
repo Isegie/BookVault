@@ -82,14 +82,14 @@ CREATE TABLE IF NOT EXISTS wishlist_group
 );
 
 CREATE TABLE IF NOT EXISTS basket
-(
-    basket_id   identity,
-    total_price decimal(10, 2) default 0,
-    id_user     bigint,
-    id_book     bigint,
-    foreign key (id_user) references users (user_id),
-    foreign key (id_book) references book (book_id)
-);
+  (
+      basket_id   identity,
+      total_price decimal(10, 2) default 0,
+      id_user     bigint,
+      id_book     bigint,
+      foreign key (id_user) references users (user_id),
+      foreign key (id_book) references book (book_id)
+  );
 
 CREATE TABLE IF NOT EXISTS book_author
 (

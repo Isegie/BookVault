@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: default
   h2:
     console:
       enabled: true
@@ -30,7 +33,17 @@ spring:
     show-sql: true
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+
   main:
     allow-bean-definition-overriding: true
     banner-mode: off
+  flyway:
+    enabled: true
+    user: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/bookvaultdb
+    baseline-on-migrate: true
+    schemas: public
+    default-schema: public
+    validate-on-migrate: true
 environment: production

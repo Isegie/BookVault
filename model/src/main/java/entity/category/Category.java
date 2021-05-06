@@ -1,11 +1,15 @@
 package entity.category;
 
+import entity.book.Book;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="category")
+@Table(name = "category")
 public class Category implements Serializable {
 
     @Id
@@ -16,9 +20,13 @@ public class Category implements Serializable {
     @Column(name = "category_name")
     private String name;
 
-    public Category() {}
+    @OneToMany(mappedBy = "category")
+    private List<Book> books = new ArrayList<>();
 
-    public Category(String name){
+    public Category() {
+    }
+
+    public Category(String name) {
         this.name = name;
     }
 
@@ -36,6 +44,14 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override

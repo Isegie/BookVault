@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS book
 (
     book_id          identity,
     title            varchar(200)       not null,
+    language         varchar(50)        not null,
     description      clob               not null,
     number_of_pages  smallint           not null,
     isbn             varchar(50) unique not null,
@@ -32,6 +33,7 @@ CREATE TABLE IF NOT EXISTS book
     publication_date date               not null,
     edition          tinyint            not null,
     city             varchar(100)       not null,
+    format           varchar(50)        not null,
     country          varchar(100)       not null,
     rating           decimal(1, 1),
     price            decimal(10, 2) default 0,
@@ -82,14 +84,14 @@ CREATE TABLE IF NOT EXISTS wishlist_group
 );
 
 CREATE TABLE IF NOT EXISTS basket
-  (
-      basket_id   identity,
-      total_price decimal(10, 2) default 0,
-      id_user     bigint,
-      id_book     bigint,
-      foreign key (id_user) references users (user_id),
-      foreign key (id_book) references book (book_id)
-  );
+(
+    basket_id   identity,
+    total_price decimal(10, 2) default 0,
+    id_user     bigint,
+    id_book     bigint,
+    foreign key (id_user) references users (user_id),
+    foreign key (id_book) references book (book_id)
+);
 
 CREATE TABLE IF NOT EXISTS book_author
 (
@@ -124,4 +126,15 @@ CREATE TABLE IF NOT EXISTS book_wishlist
     foreign key (id_wishlist) references wishlist (wishlist_id)
 );
 
-
+create table if not exists reviews
+(
+    review_id      bigint generated always as identity,
+    book_id        int  not null,
+    user_id        int  not null,
+    content        text not null,
+    rating         int       default 0,
+    published_date timestamp default current_timestamp,
+    primary key (review_id),
+    foreign key (book_id) references book (book_id) on delete cascade,
+    foreign key (user_id) references users (user_id) on delete cascade
+);

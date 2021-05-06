@@ -42,8 +42,8 @@ spring:
     user: postgres
     password: postgres
     url: jdbc:postgresql://localhost:5432/bookvaultdb
-    baseline-on-migrate: true
+    baselineOnMigrate: true
     schemas: public
-    default-schema: public
-    validate-on-migrate: true
+    defaultSchema: public
+    validateOnMigrate: false
 environment: production

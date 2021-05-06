@@ -1,5 +1,6 @@
 package entity.wishlist;
 
+import entity.book.Book;
 import entity.user.User;
 import entity.wishlistgroup.WishlistGroup;
 
@@ -25,7 +26,11 @@ public class Wishlist implements Serializable {
     @JoinColumn(name = "id_user")
     private User user;
 
-    public Wishlist(){}
+    @ManyToMany(mappedBy = "wishlists")
+    private List<Book> books = new ArrayList<>();
+
+    public Wishlist() {
+    }
 
     public Long getId() {
         return id;
@@ -49,6 +54,14 @@ public class Wishlist implements Serializable {
 
     public void setWishlistGroupList(List<WishlistGroup> wishlistGroupList) {
         this.wishlistGroupList = wishlistGroupList;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override

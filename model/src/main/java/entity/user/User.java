@@ -1,22 +1,19 @@
 package entity.user;
 
 import entity.basket.Basket;
+import entity.order.Order;
 import entity.wishlist.Wishlist;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
-
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private Basket basket;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Wishlist wishlist;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +52,36 @@ public class User implements Serializable {
 
     @Column(name = "country")
     private String country;
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private Basket basket;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Wishlist wishlist;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_id")
+    private List<Order> orders = new ArrayList<>();
+
+
+    public User() {
+    }
+
+    public User(Basket basket, Wishlist wishlist, String username, String email, LocalDate dateOfBirth, String userPassword, String firstName, String lastName, String phoneNumber, String address, String postcode, String city, String country) {
+        this.basket = basket;
+        this.wishlist = wishlist;
+        this.username = username;
+        this.email = email;
+        this.dateOfBirth = dateOfBirth;
+        this.userPassword = userPassword;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.postcode = postcode;
+        this.city = city;
+        this.country = country;
+    }
 
     public Long getId() {
         return id;

@@ -1,7 +1,11 @@
 package entity.author;
 
+import entity.book.Book;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -22,9 +26,13 @@ public class Author implements Serializable {
     @Column(name = "email")
     private String email;
 
-    public Author() {}
+    @ManyToMany(mappedBy = "authors")
+    private List<Book> books = new ArrayList<>();
 
-    public Author(String firstName, String lastName, String email){
+    public Author() {
+    }
+
+    public Author(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

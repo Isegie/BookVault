@@ -38,12 +38,12 @@ create table if not exists book
     book_id          bigint generated always as identity,
     title            varchar(200) not null,
     description      text         not null,
-    number_of_pages  smallint     not null,
+    number_of_pages  integer     not null,
     isbn             varchar(50) unique,
-    picture          bytea        not null,
+    picture          bytea,
     discount         numeric(2, 2)  default 0,
     publication_date date         not null,
-    edition          smallint       default 0,
+    edition          integer       default 0,
     city             varchar(100) not null,
     country          varchar(100) not null,
     rating           numeric(10, 2) default 0,
@@ -161,7 +161,7 @@ create table if not exists book_order
 (
     id_book  bigint references book (book_id),
     id_order bigint references orders (order_id),
-    amount   smallint default 0
+    amount   integer default 0
 );
 
 alter table book_order

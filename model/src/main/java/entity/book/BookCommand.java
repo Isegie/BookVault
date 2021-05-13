@@ -1,7 +1,6 @@
 package entity.book;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import validator.image.ValidImage;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -37,7 +36,7 @@ public class BookCommand {
     @NotBlank(message = "Format must not be empty")
     @JsonProperty("format")
     private String format;
-    @ValidImage
+    //@ValidImage
     @JsonProperty("picture")
     private byte[] picture;
     @Min(message = "Edition be equal to or more than one", value = 1)
@@ -164,4 +163,5 @@ public class BookCommand {
     public void setRating(Float rating) {
         this.rating = rating;
     }
+
 }

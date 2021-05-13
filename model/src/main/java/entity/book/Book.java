@@ -56,12 +56,12 @@ public class Book implements Serializable {
     private Float rating;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_publisher")
     private Publisher publisher;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_category")
     private Category category;
 

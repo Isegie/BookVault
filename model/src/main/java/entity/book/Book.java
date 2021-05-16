@@ -8,6 +8,8 @@ import entity.order.Order;
 import entity.publisher.Publisher;
 import entity.wishlist.Wishlist;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -73,7 +75,8 @@ public class Book implements Serializable {
     private Set<Order> orders = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany
+    @Fetch(FetchMode.JOIN)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "book_author",
             joinColumns = @JoinColumn(name = "id_book"),
             inverseJoinColumns = @JoinColumn(name = "id_author"))

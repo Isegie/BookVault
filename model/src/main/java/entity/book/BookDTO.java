@@ -1,10 +1,16 @@
 package entity.book;
 
+import entity.author.AuthorDTO;
+import entity.category.Category;
+import entity.publisher.Publisher;
+import org.springframework.hateoas.RepresentationModel;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Set;
 
-public class BookDTO {
+public class BookDTO extends RepresentationModel<BookDTO> {
 
     private String title;
     private String language;
@@ -20,11 +26,14 @@ public class BookDTO {
     private String description;
     private Float discount;
     private Float rating;
+    private Set<AuthorDTO> authors;
+    private Publisher publisher;
+    private Category category;
 
     public BookDTO() {
     }
 
-    public BookDTO(String title, String language, BigDecimal price, String isbn, LocalDate publicationDate, String city, String country, Integer numberOfPages, String format, byte[] picture, Integer edition, String description, Float discount, Float rating) {
+    public BookDTO(String title, String language, BigDecimal price, String isbn, LocalDate publicationDate, String city, String country, Integer numberOfPages, String format, byte[] picture, Integer edition, String description, Float discount, Float rating, Set<AuthorDTO> authors, Publisher publisher, Category category) {
         this.title = title;
         this.language = language;
         this.price = price;
@@ -39,13 +48,15 @@ public class BookDTO {
         this.description = description;
         this.discount = discount;
         this.rating = rating;
+        this.authors = authors;
+        this.publisher = publisher;
+        this.category = category;
     }
 
 
     public void setPicture(byte[] picture) {
         this.picture = picture;
     }
-
 
     public byte[] getPicture() {
         return picture;
@@ -153,6 +164,30 @@ public class BookDTO {
 
     public void setRating(Float rating) {
         this.rating = rating;
+    }
+
+    public Set<AuthorDTO> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<AuthorDTO> authors) {
+        this.authors = authors;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import repository.category.CategoryRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -20,12 +21,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category findCategoryById(Long id) {
 
-        Category foundCategory = categoryRepository.getOne(id);
+        Optional<Category> foundCategory = categoryRepository.findById(id);
 
-        if (foundCategory == null) {
+        if (!foundCategory.isPresent()) {
             throw new EntityNotFoundException(String.format("Category with id=%d not found", id));
         }
 
-        return foundCategory;
+        return foundCategory.get();
     }
 }

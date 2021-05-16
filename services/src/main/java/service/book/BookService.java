@@ -13,4 +13,8 @@ public interface BookService {
     Book save(BookDTO book);
 
     Optional<Book> findBookById(Long id);
+
+    List<Book> findByTitleOrLanguage(String value);
+
+    Optional<Book> findBookByISBN(String isbn);
 }

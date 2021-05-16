@@ -1,10 +1,16 @@
 package mapper;
 
+import entity.author.Author;
+import entity.author.AuthorDTO;
 import entity.book.Book;
 import entity.book.BookCommand;
 import entity.book.BookDTO;
+import entity.publisher.Publisher;
+import entity.publisher.PublisherDTO;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Primary
 @Component
@@ -28,6 +34,9 @@ public class MapStructMapperImplementation implements MapStructMapper {
         bookDTO.setFormat(book.getFormat());
         bookDTO.setLanguage(bookDTO.getLanguage());
         bookDTO.setPrice(book.getPrice());
+        bookDTO.setAuthors(book.getAuthors().stream().map(this::authorToDto).collect(Collectors.toSet()));
+        bookDTO.setPublisher(book.getPublisher());
+        bookDTO.setCategory(book.getCategory());
         return bookDTO;
     }
 
@@ -72,6 +81,35 @@ public class MapStructMapperImplementation implements MapStructMapper {
         bookDTO.setFormat(bookCommand.getFormat());
         bookDTO.setLanguage(bookCommand.getLanguage());
         bookDTO.setPrice(bookCommand.getPrice());
+
         return bookDTO;
+    }
+
+    @Override
+    public AuthorDTO authorToDto(Author author) {
+        AuthorDTO authorDTO = new AuthorDTO();
+        authorDTO.setFirstName(author.getFirstName());
+        authorDTO.setLastName(author.getLastName());
+        authorDTO.setEmail(author.getEmail());
+        return authorDTO;
+    }
+
+    @Override
+    public Author authorDtoToAuthor(AuthorDTO authorDTO) {
+        Author author = new Author();
+        author.setFirstName(authorDTO.getFirstName());
+        author.setLastName(authorDTO.getLastName());
+        author.setEmail(authorDTO.getEmail());
+        return author;
+    }
+
+    @Override
+    public PublisherDTO publisherToDTO(Publisher publisher) {
+        PublisherDTO publisherDTO = new PublisherDTO();
+        publisherDTO.setName(publisher.getName());
+        publisherDTO.setAddress(publisher.getAddress());
+        publisherDTO.setPhoneNumber(publisher.getPhoneNumber());
+        publisherDTO.setEmail(publisher.getEmail());
+        return publisherDTO;
     }
 }

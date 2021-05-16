@@ -4,8 +4,11 @@ import entity.book.Book;
 import entity.book.BookDTO;
 import mapper.MapStructMapperImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import repository.book.BookRepository;
+import specification.book.BookSpecifications;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -41,6 +44,24 @@ public class BookServiceImpl implements BookService {
             return book;
         } else {
             throw new EntityNotFoundException(String.format("Book with id=%d not found", id));
+        }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Book> findByTitleOrLanguage(String value) {
+        Specification<Book> bookSpecification = BookSpecifications.likeTitleOrLanguage(value);
+        List<Book> books = bookRepository.findAll(bookSpecification);
+        return books;
+    }
+
+    @Override
+    public Optional<Book> findBookByISBN(String isbn) {
+        Optional<Book> book = bookRepository.findByIsbn(isbn);
+        if (book.isPresent()) {
+            return book;
+        } else {
+            throw new EntityNotFoundException(String.format("Book with ISBN=%d not found", isbn));
         }
     }
 

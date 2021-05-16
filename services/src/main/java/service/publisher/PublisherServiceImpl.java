@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import repository.publisher.PublisherRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 public class PublisherServiceImpl implements PublisherService {
@@ -18,13 +19,10 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public Publisher findPublisherById(Long id) {
+    public Optional<Publisher> findPublisherById(Long id) {
 
-        Publisher foundPublisher = publisherRepository.getOne(id);
+        Optional<Publisher> foundPublisher = publisherRepository.findById(id);
 
-        if (foundPublisher == null) {
-            throw new EntityNotFoundException(String.format("Publisher with id=%d not found", id));
-        }
-        return foundPublisher;
+        return foundPublisher.map(Optional::ofNullable).orElseThrow(() -> new EntityNotFoundException(String.format("Publisher with id=%d not found", id)));
     }
 }

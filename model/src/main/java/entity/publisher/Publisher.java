@@ -1,7 +1,11 @@
 package entity.publisher;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import entity.book.Book;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,7 +30,11 @@ public class Publisher implements Serializable {
     private String phoneNumber;
     @Column(name = "email")
     private String email;
-    @OneToMany(mappedBy = "publisher")
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "publisher", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    @MapKey(name = "bookId")
     private List<Book> books = new ArrayList<>();
 
     public Publisher() {

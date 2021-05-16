@@ -2,6 +2,8 @@ package service.publisher;
 
 import entity.publisher.Publisher;
 
+import java.util.Optional;
+
 public interface PublisherService {
-    Publisher findPublisherById(Long id);
+    Optional<Publisher> findPublisherById(Long id);
 }

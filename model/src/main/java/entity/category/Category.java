@@ -1,6 +1,9 @@
 package entity.category;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import entity.book.Book;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,7 +23,10 @@ public class Category implements Serializable {
     @Column(name = "category_name")
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    @JsonIgnore
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    @MapKey(name = "bookId")
     private List<Book> books = new ArrayList<>();
 
     public Category() {

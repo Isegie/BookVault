@@ -86,6 +86,27 @@ public class MapStructMapperImplementation implements MapStructMapper {
     }
 
     @Override
+    public Book bookCommandToBook(BookCommand bookCommand) {
+
+        Book book = new Book();
+        book.setTitle(bookCommand.getTitle());
+        book.setDescription(bookCommand.getDescription());
+        book.setNumberOfPages(bookCommand.getNumberOfPages());
+        book.setIsbn(bookCommand.getIsbn());
+        book.setDiscount(bookCommand.getDiscount());
+        book.setPublicationDate(bookCommand.getPublicationDate());
+        book.setEdition(bookCommand.getEdition());
+        book.setCity(bookCommand.getCity());
+        book.setCountry(bookCommand.getCountry());
+        book.setRating(bookCommand.getRating());
+        book.setFormat(bookCommand.getFormat());
+        book.setLanguage(bookCommand.getLanguage());
+        book.setPrice(bookCommand.getPrice());
+
+        return book;
+    }
+
+    @Override
     public AuthorDTO authorToDto(Author author) {
         AuthorDTO authorDTO = new AuthorDTO();
         authorDTO.setFirstName(author.getFirstName());

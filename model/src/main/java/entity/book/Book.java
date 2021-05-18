@@ -6,6 +6,7 @@ import entity.basket.Basket;
 import entity.category.Category;
 import entity.order.Order;
 import entity.publisher.Publisher;
+import entity.review.Review;
 import entity.wishlist.Wishlist;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Fetch;
@@ -95,6 +96,10 @@ public class Book implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_basket"))
     private List<Basket> baskets = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    private List<Review> reviews;
 
     public Book() {
 
@@ -282,6 +287,14 @@ public class Book implements Serializable {
 
     public void setBaskets(List<Basket> baskets) {
         this.baskets = baskets;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

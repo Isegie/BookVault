@@ -18,6 +18,8 @@ public interface MapStructMapper {
 
     BookDTO bookCommandToDto(BookCommand bookCommand);
 
+    Book bookCommandToBook(BookCommand bookCommand);
+
     AuthorDTO authorToDto(Author author);
 
     Author authorDtoToAuthor(AuthorDTO authorDTO);

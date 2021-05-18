@@ -1,12 +1,15 @@
 package service.book;
 
 import entity.book.Book;
+import entity.book.BookCommand;
 import entity.book.BookDTO;
+import entity.dto.BookReviewDTO;
 import mapper.MapStructMapperImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import repository.book.BookJdbcRepository;
 import repository.book.BookRepository;
 import specification.book.BookSpecifications;
 
@@ -19,11 +22,13 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final MapStructMapperImplementation mapper;
+    private final BookJdbcRepository bookJdbcRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository bookRepository, MapStructMapperImplementation mapper) {
+    public BookServiceImpl(BookRepository bookRepository, MapStructMapperImplementation mapper, BookJdbcRepository bookJdbcRepository) {
         this.bookRepository = bookRepository;
         this.mapper = mapper;
+        this.bookJdbcRepository = bookJdbcRepository;
     }
 
     @Override
@@ -63,6 +68,21 @@ public class BookServiceImpl implements BookService {
         } else {
             throw new EntityNotFoundException(String.format("Book with ISBN=%d not found", isbn));
         }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        bookRepository.deleteByBookId(id);
+    }
+
+    @Override
+    public Optional<BookDTO> update(Long id, BookCommand book) {
+        return bookJdbcRepository.update(id, book).map(mapper::bookToDto);
+    }
+
+    @Override
+    public List<BookReviewDTO> getBookReviews(Long id) {
+        return bookRepository.findBookReviews(id);
     }
 
 }

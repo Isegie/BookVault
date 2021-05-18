@@ -4,6 +4,7 @@ import com.bookvault.bookvault.configuration.link.BookModelAssembler;
 import entity.book.Book;
 import entity.book.BookCommand;
 import entity.book.BookDTO;
+import entity.dto.BookReviewDTO;
 import mapper.MapStructMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -11,6 +12,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import service.book.BookService;
 
@@ -18,6 +20,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "book", produces = "application/hal+json")
@@ -68,9 +73,7 @@ public class BookController {
 
         EntityModel<ResponseEntity<List<BookDTO>>> bookDTOEntityModel = EntityModel.of(bookResponse);
 
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder
-                        .methodOn(BookController.class).findAll());
+        WebMvcLinkBuilder linkBuilder = linkTo(methodOn(BookController.class).findAll());
 
         bookDTOEntityModel.add(linkBuilder.withRel("books"));
 
@@ -86,13 +89,33 @@ public class BookController {
 
         EntityModel<ResponseEntity<BookDTO>> bookDTOEntityModel = EntityModel.of(bookResponse);
 
-
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder
-                        .methodOn(BookController.class).findAll());
+        WebMvcLinkBuilder linkBuilder = linkTo(methodOn(BookController.class).findAll());
 
         bookDTOEntityModel.add(linkBuilder.withRel("books"));
 
         return bookDTOEntityModel;
     }
+
+    @Transactional
+    @DeleteMapping("{id}")
+    public ResponseEntity<Long> deleteBook(@PathVariable("id") String id) {
+        bookService.deleteById(Long.valueOf(id));
+        return new ResponseEntity<>(Long.valueOf(id), HttpStatus.OK);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<BookDTO> update(@PathVariable("id") Long id, @Valid @RequestBody BookCommand bookCommand) {
+        return bookService.update(id, bookCommand).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("reviews/{id}")
+    public ResponseEntity<List<BookReviewDTO>> findBookReviews(@PathVariable("id") Long id) {
+
+        List<BookReviewDTO> bookReviews = bookService.getBookReviews(id);
+        if (bookReviews.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(bookReviews, HttpStatus.OK);
+    }
+
 }

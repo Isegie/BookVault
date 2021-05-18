@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = {"com.bookvault", "repository", "entity", "mapper", "service", "com.bookvault.bookvault.web"})
+@SpringBootApplication(scanBasePackages = {"com.bookvault", "repository", "entity", "mapper", "service", "com.bookvault.bookvault.web","com.bookvault.bookvault.configuration"})
 @EnableJpaRepositories(basePackages = "repository")
 @EntityScan(basePackages = "entity")
 public class BookvaultApplication {

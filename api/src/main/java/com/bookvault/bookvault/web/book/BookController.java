@@ -118,4 +118,16 @@ public class BookController {
         return new ResponseEntity<>(bookReviews, HttpStatus.OK);
     }
 
+    @GetMapping("category/{category}")
+    public ResponseEntity<List<BookDTO>> findBooksByCategory(@RequestParam("category") String category) {
+
+        List<BookDTO> books = bookService.findBookByCategory(category)
+                .stream().map(mapper::bookToDto).collect(Collectors.toList());
+
+        if (books.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
+
 }

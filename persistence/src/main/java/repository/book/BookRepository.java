@@ -22,4 +22,6 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
     @Query("select new entity.dto.BookReviewDTO(r.book,r.content,r.rating,r.publishDate,u.username) from Book b," +
             "User u, Review r where u=r.user and b=r.book and b.bookId=:id")
     List<BookReviewDTO> findBookReviews(@Param("id") Long id);
+
+    List<Book> findBooksByCategory_Name(String name);
 }

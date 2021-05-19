@@ -25,4 +25,6 @@ public interface BookService {
     Optional<BookDTO> update(Long id, BookCommand book);
 
     List<BookReviewDTO> getBookReviews(Long id);
+
+    List<Book> findBookByCategory(String category);
 }

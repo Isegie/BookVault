@@ -85,4 +85,9 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findBookReviews(id);
     }
 
+    @Override
+    public List<Book> findBookByCategory(String category) {
+        return bookRepository.findBooksByCategory_Name(category);
+    }
+
 }

@@ -3,6 +3,7 @@ package entity.review;
 import entity.book.Book;
 import entity.user.User;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,7 +11,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reviews")
-@NoArgsConstructor
 @EqualsAndHashCode
 @ToString
 @Getter
@@ -23,6 +23,7 @@ public class Review implements Serializable {
     @Setter(AccessLevel.PROTECTED)
     Long reviewId;
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "content")
     private String content;
     @Column(name = "rating")
@@ -36,6 +37,9 @@ public class Review implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Review() {
+    }
+
     public Review(String content, Integer rating, Book book, User user) {
         this.content = content;
         this.rating = rating;
@@ -43,4 +47,11 @@ public class Review implements Serializable {
         this.user = user;
     }
 
+    public Review(String content, Integer rating, LocalDateTime publishDate, Book book, User user) {
+        this.content = content;
+        this.rating = rating;
+        this.publishDate = publishDate;
+        this.book = book;
+        this.user = user;
+    }
 }

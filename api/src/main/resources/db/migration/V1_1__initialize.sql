@@ -128,6 +128,20 @@ create table if not exists wishlist_group
 alter table wishlist_group
     owner to postgres;
 
+
+create table if not exists reviews
+(
+    review_id      bigint generated always as identity,
+    book_id        bigint  not null,
+    user_id        bigint  not null,
+    content        text not null,
+    rating         int       default 0,
+    published_date timestamp default current_timestamp,
+    primary key (review_id),
+    constraint fk_book foreign key (book_id) references book (book_id) on delete set null ,
+    constraint fk_user foreign key (user_id) references users (user_id) on delete set null
+);
+
 create table if not exists basket
 (
     basket_id   bigint generated always as identity,

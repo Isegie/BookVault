@@ -6,8 +6,11 @@ import entity.basket.Basket;
 import entity.category.Category;
 import entity.order.Order;
 import entity.publisher.Publisher;
+import entity.review.Review;
 import entity.wishlist.Wishlist;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -56,12 +59,12 @@ public class Book implements Serializable {
     private Float rating;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_publisher")
     private Publisher publisher;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_category")
     private Category category;
 
@@ -73,7 +76,8 @@ public class Book implements Serializable {
     private Set<Order> orders = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany
+    @Fetch(FetchMode.JOIN)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "book_author",
             joinColumns = @JoinColumn(name = "id_book"),
             inverseJoinColumns = @JoinColumn(name = "id_author"))
@@ -92,6 +96,10 @@ public class Book implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_basket"))
     private List<Basket> baskets = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    private List<Review> reviews;
 
     public Book() {
 
@@ -279,6 +287,14 @@ public class Book implements Serializable {
 
     public void setBaskets(List<Basket> baskets) {
         this.baskets = baskets;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

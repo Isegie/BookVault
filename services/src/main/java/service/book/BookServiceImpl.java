@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repository.book.BookJdbcRepository;
 import repository.book.BookRepository;
-import specification.book.BookSpecifications;
+import specification.book.BookSpecification;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -55,7 +55,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public List<Book> findByTitleOrLanguage(String value) {
-        Specification<Book> bookSpecification = BookSpecifications.likeTitleOrLanguage(value);
+        Specification<Book> bookSpecification = BookSpecification.likeTitleOrLanguage(value);
         List<Book> books = bookRepository.findAll(bookSpecification);
         return books;
     }

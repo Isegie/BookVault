@@ -3,9 +3,9 @@ package specification.book;
 import entity.book.Book;
 import org.springframework.data.jpa.domain.Specification;
 
-public class BookSpecifications {
+public class BookSpecification {
 
-    private BookSpecifications() {
+    private BookSpecification() {
     }
 
     public static Specification<Book> likeTitleOrLanguage(String value) {

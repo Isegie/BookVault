@@ -1,6 +1,7 @@
 package mapper;
 
 import entity.author.Author;
+import entity.author.AuthorCommand;
 import entity.author.AuthorDTO;
 import entity.book.Book;
 import entity.book.BookCommand;
@@ -23,6 +24,8 @@ public interface MapStructMapper {
     AuthorDTO authorToDto(Author author);
 
     Author authorDtoToAuthor(AuthorDTO authorDTO);
+
+    AuthorDTO authorCommandToDto(AuthorCommand authorCommand);
 
     PublisherDTO publisherToDTO(Publisher publisher);
 }

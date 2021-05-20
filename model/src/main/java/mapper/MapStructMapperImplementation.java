@@ -1,6 +1,7 @@
 package mapper;
 
 import entity.author.Author;
+import entity.author.AuthorCommand;
 import entity.author.AuthorDTO;
 import entity.book.Book;
 import entity.book.BookCommand;
@@ -122,6 +123,15 @@ public class MapStructMapperImplementation implements MapStructMapper {
         author.setLastName(authorDTO.getLastName());
         author.setEmail(authorDTO.getEmail());
         return author;
+    }
+
+    @Override
+    public AuthorDTO authorCommandToDto(AuthorCommand authorCommand) {
+        AuthorDTO authorDTO = new AuthorDTO();
+        authorDTO.setFirstName(authorCommand.getFirstName());
+        authorDTO.setLastName(authorCommand.getLastName());
+        authorDTO.setEmail(authorDTO.getEmail());
+        return authorDTO;
     }
 
     @Override

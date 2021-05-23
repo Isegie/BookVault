@@ -2,6 +2,7 @@ package repository.order;
 
 import entity.order.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "inner join orders on orders.order_id=book_order.id_order" +
             " where order_processed=false and order_id=:id", nativeQuery = true)
     Double productSum(@Param("id") Long id);
+
+    @Modifying
+    @Query(value = "delete from book_order where book_order.id_book " +
+             "in(select book_id from book where book_id=:id)", nativeQuery = true)
+    void deleteBookFromOrder(@Param("id") Long id);
 
 }

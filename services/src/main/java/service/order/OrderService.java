@@ -13,4 +13,6 @@ public interface OrderService {
     List<Order> findOrdersByOrderDate(LocalDate orderDate);
 
     List<Order> findOrdersByUserId(Long id);
+
+    void deleteBookFromOrder(Long id);
 }

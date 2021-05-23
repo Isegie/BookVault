@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.order.OrderRepository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -36,5 +37,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findOrdersByUserId(Long id) {
         return orderRepository.findOrdersByUser_Id(id);
+    }
+
+    @Transactional
+    @Override
+    public void deleteBookFromOrder(Long id) {
+        orderRepository.deleteBookFromOrder(id);
     }
 }

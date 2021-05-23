@@ -44,4 +44,9 @@ public class OrderServiceImpl implements OrderService {
     public void deleteBookFromOrder(Long id) {
         orderRepository.deleteBookFromOrder(id);
     }
+
+    @Override
+    public List<Order> findExecutedOrdersForUser(Long id) {
+        return orderRepository.usersExecutedOrders(id);
+    }
 }

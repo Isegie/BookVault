@@ -15,4 +15,6 @@ public interface OrderService {
     List<Order> findOrdersByUserId(Long id);
 
     void deleteBookFromOrder(Long id);
+
+    List<Order> findExecutedOrdersForUser(Long id);
 }

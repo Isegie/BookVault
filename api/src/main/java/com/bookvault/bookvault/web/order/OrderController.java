@@ -37,4 +37,10 @@ public class OrderController {
     public void deleteBookInOrder(@PathVariable("id") Long id) {
         orderService.deleteBookFromOrder(id);
     }
+
+    @GetMapping("orders/status/{id}")
+    public List<OrderDTO> findExecutedOrders(@PathVariable("id") Long id) {
+        return orderService.findExecutedOrdersForUser(id).stream()
+                .map(mapper::orderToDTO).collect(Collectors.toList());
+    }
 }

@@ -24,7 +24,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Modifying
     @Query(value = "delete from book_order where book_order.id_book " +
-             "in(select book_id from book where book_id=:id)", nativeQuery = true)
+            "in(select book_id from book where book_id=:id)", nativeQuery = true)
     void deleteBookFromOrder(@Param("id") Long id);
+
+    @Query(value = "select * from orders left outer join users on users.user_id = orders.id_user " +
+            "where users.user_id=:id and order_processed = true and order_status_sent = true", nativeQuery = true)
+    List<Order> usersExecutedOrders(@Param("id") Long id);
 
 }

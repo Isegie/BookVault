@@ -2,49 +2,30 @@ package entity.order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import entity.book.Book;
-import entity.user.User;
-import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import util.LocalDateTimeConverter;
+import entity.user.UserDTO;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "orders")
-public class Order implements Serializable {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id", insertable = false, updatable = false)
-    private @Id
-    @Setter(AccessLevel.PROTECTED)
-    Long orderId;
-    @Column(name = "order_processed")
+public class OrderDTO {
+
     private boolean orderProcessed;
-    @Column(name = "order_status_sent")
     private boolean orderStatusSent;
-    @Convert(converter = LocalDateTimeConverter.class)
-    @Column(name = "order_date")
     private LocalDateTime orderDate;
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "id_user")
-    private User user;
-    @Fetch(FetchMode.JOIN)
-    @ManyToMany(mappedBy = "orders",fetch = FetchType.EAGER)
+    private UserDTO user;
     private List<Book> books = new ArrayList<>();
 
-    public Order() {
+    public OrderDTO() {
     }
 
-    public Order(boolean orderProcessed, boolean orderStatusSent, LocalDateTime orderDate, User user) {
+    public OrderDTO(boolean orderProcessed, boolean orderStatusSent, LocalDateTime orderDate, UserDTO user, List<Book> books) {
         this.orderProcessed = orderProcessed;
         this.orderStatusSent = orderStatusSent;
         this.orderDate = orderDate;
         this.user = user;
+        this.books = books;
     }
 
     public boolean isOrderProcessed() {
@@ -71,11 +52,11 @@ public class Order implements Serializable {
         this.orderDate = orderDate;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 

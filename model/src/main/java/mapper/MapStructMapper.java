@@ -6,6 +6,8 @@ import entity.author.AuthorDTO;
 import entity.book.Book;
 import entity.book.BookCommand;
 import entity.book.BookDTO;
+import entity.order.Order;
+import entity.order.OrderDTO;
 import entity.publisher.Publisher;
 import entity.publisher.PublisherDTO;
 import org.mapstruct.Mapper;
@@ -28,4 +30,6 @@ public interface MapStructMapper {
     AuthorDTO authorCommandToDto(AuthorCommand authorCommand);
 
     PublisherDTO publisherToDTO(Publisher publisher);
+
+    OrderDTO orderToDTO(Order order);
 }

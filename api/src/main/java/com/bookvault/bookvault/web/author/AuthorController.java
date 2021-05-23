@@ -7,6 +7,8 @@ import entity.author.AuthorDTO;
 import mapper.MapStructMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,10 @@ import service.author.AuthorService;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("author")
@@ -53,4 +59,20 @@ public class AuthorController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/search/{prop}")
+    public EntityModel<ResponseEntity<List<AuthorDTO>>> findByFirstNameOrLastName(@RequestParam(value = "prop") String prop) {
+
+        List<AuthorDTO> authors = authorService.findByFirstOrLastName(prop)
+                .stream().map(mapper::authorToDto).collect(Collectors.toList());
+
+        ResponseEntity<List<AuthorDTO>> authorResponse = ResponseEntity.ok().body(authors);
+
+        EntityModel<ResponseEntity<List<AuthorDTO>>> authorDTOEntityModel = EntityModel.of(authorResponse);
+
+        WebMvcLinkBuilder linkBuilder = linkTo(methodOn(AuthorController.class).authors());
+
+        authorDTOEntityModel.add(linkBuilder.withRel("authors"));
+
+        return authorDTOEntityModel;
+    }
 }

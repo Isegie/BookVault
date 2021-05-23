@@ -6,6 +6,8 @@ import entity.author.AuthorDTO;
 import entity.book.Book;
 import entity.book.BookCommand;
 import entity.book.BookDTO;
+import entity.order.Order;
+import entity.order.OrderDTO;
 import entity.publisher.Publisher;
 import entity.publisher.PublisherDTO;
 import org.springframework.context.annotation.Primary;
@@ -142,5 +144,15 @@ public class MapStructMapperImplementation implements MapStructMapper {
         publisherDTO.setPhoneNumber(publisher.getPhoneNumber());
         publisherDTO.setEmail(publisher.getEmail());
         return publisherDTO;
+    }
+
+    @Override
+    public OrderDTO orderToDTO(Order order) {
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setOrderDate(order.getOrderDate());
+        orderDTO.setOrderProcessed(order.isOrderProcessed());
+        orderDTO.setOrderStatusSent(order.isOrderStatusSent());
+        orderDTO.setBooks(order.getBooks());
+        return orderDTO;
     }
 }

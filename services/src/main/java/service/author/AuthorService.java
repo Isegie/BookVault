@@ -11,4 +11,6 @@ public interface AuthorService {
     List<Author> findAll();
 
     Author save(AuthorDTO author);
+
+    List<Author> findByFirstOrLastName(String value);
 }

@@ -4,6 +4,7 @@ import entity.publisher.PublisherDTO;
 import mapper.MapStructMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class PublisherController {
         this.mapper = mapper;
     }
 
+    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping("/{id}")
     public ResponseEntity<PublisherDTO> findPublisher(@PathVariable("id") Long id) {
         return publisherService.findPublisherById(id)

@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import repository.user.UserRepository;
 
+import javax.transaction.Transactional;
+
 @Service
 public class UserDetailsServiceImplementation implements UserDetailsService {
 
@@ -19,6 +21,7 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(username).
                 orElseThrow(() -> new UsernameNotFoundException("No such user found!"));

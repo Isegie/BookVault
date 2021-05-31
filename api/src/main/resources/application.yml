@@ -28,3 +28,8 @@ spring:
     defaultSchema: public
     validateOnMigrate: false
 environment: production
+jwt:
+  base64-secret:
+    Ym9va3ZhdWx0
+  tokenValiditySeconds:
+    3600

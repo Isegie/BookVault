@@ -11,6 +11,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import service.author.AuthorService;
 
@@ -37,18 +38,21 @@ public class AuthorController {
         this.modelAssembler = modelAssembler;
     }
 
+    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping
     public ResponseEntity<CollectionModel<AuthorDTO>> authors() {
         List<Author> authors = authorService.findAll();
         return new ResponseEntity<>(modelAssembler.toCollectionModel(authors), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping("/{id}")
     public ResponseEntity<AuthorDTO> findAuthorById(@PathVariable Long id) {
         AuthorDTO authorDTO = mapper.authorToDto(authorService.findAuthorById(id));
         return ResponseEntity.ok(authorDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN_ROLE')")
     @PostMapping
     public ResponseEntity<AuthorDTO> create(@RequestBody @Valid AuthorCommand authorCommand) {
         AuthorDTO authorDTO = mapper.authorCommandToDto(authorCommand);
@@ -59,6 +63,7 @@ public class AuthorController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping("/search/{prop}")
     public EntityModel<ResponseEntity<List<AuthorDTO>>> findByFirstNameOrLastName(@RequestParam(value = "prop") String prop) {
 

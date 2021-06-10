@@ -38,7 +38,6 @@ public class AuthorController {
         this.modelAssembler = modelAssembler;
     }
 
-    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping
     public ResponseEntity<CollectionModel<AuthorDTO>> authors() {
         List<Author> authors = authorService.findAll();
@@ -63,7 +62,6 @@ public class AuthorController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping("/search/{prop}")
     public EntityModel<ResponseEntity<List<AuthorDTO>>> findByFirstNameOrLastName(@RequestParam(value = "prop") String prop) {
 

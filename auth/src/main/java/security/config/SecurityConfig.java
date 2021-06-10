@@ -8,8 +8,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import security.authentication.AuthTokenFilter;
 import service.user.UserDetailsServiceImplementation;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -17,12 +22,22 @@ import service.user.UserDetailsServiceImplementation;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImplementation userDetailsServiceImplementation;
-    private final AuthenticationJwtEntry authenticationJwtEntry;
 
     @Autowired
-    public SecurityConfig(UserDetailsServiceImplementation userDetailsServiceImplementation, AuthenticationJwtEntry authenticationJwtEntry) {
+    public SecurityConfig(UserDetailsServiceImplementation userDetailsServiceImplementation) {
         this.userDetailsServiceImplementation = userDetailsServiceImplementation;
-        this.authenticationJwtEntry = authenticationJwtEntry;
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(false);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
@@ -37,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(userDetailsServiceImplementation).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsServiceImplementation).passwordEncoder(bCryptPasswordEncoder());
     }
 
 }

@@ -26,7 +26,6 @@ public class PublisherController {
         this.mapper = mapper;
     }
 
-    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping("/{id}")
     public ResponseEntity<PublisherDTO> findPublisher(@PathVariable("id") Long id) {
         return publisherService.findPublisherById(id)

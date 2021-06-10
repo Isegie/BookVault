@@ -40,7 +40,6 @@ public class BookController {
         this.bookModelAssembler = bookModelAssembler;
     }
 
-    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping
     public ResponseEntity<CollectionModel<BookDTO>> findAll() {
         List<Book> books = bookService.findAll();
@@ -60,14 +59,12 @@ public class BookController {
         return book.map(bookModelAssembler::toModel).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping("/{id}")
     public ResponseEntity<BookDTO> findById(@PathVariable Long id) {
         return bookService.findBookById(id).map(bookModelAssembler::toModel)
                 .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping("/search/{prop}")
     public EntityModel<ResponseEntity<List<BookDTO>>> findByProperty(@RequestParam(value = "prop") String prop) {
 
@@ -85,7 +82,6 @@ public class BookController {
         return bookDTOEntityModel;
     }
 
-    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping("/isbn/{isbn}")
     public EntityModel<ResponseEntity<BookDTO>> findByISBN(@RequestParam(value = "isbn") String isbn) {
 
@@ -116,7 +112,6 @@ public class BookController {
         return bookService.update(id, bookCommand).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping("reviews/{id}")
     public ResponseEntity<List<BookReviewDTO>> findBookReviews(@PathVariable("id") Long id) {
 
@@ -127,7 +122,6 @@ public class BookController {
         return new ResponseEntity<>(bookReviews, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('USER_ROLE') or hasRole('ADMIN_ROLE')")
     @GetMapping("category/{category}")
     public ResponseEntity<List<BookDTO>> findBooksByCategory(@RequestParam("category") String category) {
 
